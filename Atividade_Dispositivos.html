@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Classificação de Dispositivos</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f2f5;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    .dispositivos {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .item {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      width: 120px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .item:hover {
+      transform: scale(1.05);
+    }
+
+    .item img {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 8px;
+    }
+
+    .feedback {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .correto {
+      color: green;
+    }
+
+    .errado {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🔍 Classifique o tipo de dispositivo</h1>
+  <p>Clique em um dispositivo e escolha se é de Entrada, Saída, Armazenamento ou Processamento</p>
+
+  <div class="dispositivos" id="container">
+    <!-- Dispositivos serão adicionados via JavaScript -->
+  </div>
+
+  <script>
+    const dispositivos = [
+      { nome: "Teclado", tipo: "Entrada", icone: "⌨️" },
+      { nome: "Mouse", tipo: "Entrada", icone: "🖱️" },
+      { nome: "Monitor", tipo: "Saída", icone: "🖥️" },
+      { nome: "Impressora", tipo: "Saída", icone: "🖨️" },
+      { nome: "Pen Drive", tipo: "Armazenamento", icone: "💾" },
+      { nome: "HD", tipo: "Armazenamento", icone: "🗄️" },
+      { nome: "CPU", tipo: "Processamento", icone: "🧠" },
+      { nome: "GPU", tipo: "Processamento", icone: "🎮" }
+    ];
+
+    const categorias = ["Entrada", "Saída", "Armazenamento", "Processamento"];
+
+    const container = document.getElementById("container");
+
+    dispositivos.forEach((disp, index) => {
+      const div = document.createElement("div");
+      div.className = "item";
+      div.innerHTML = `<div style="font-size: 40px;">${disp.icone}</div><div>${disp.nome}</div><div class="feedback" id="feedback-${index}"></div>`;
+      div.onclick = () => {
+        const escolha = prompt(`👉 Qual o tipo do dispositivo "${disp.nome}"?\nOpções: ${categorias.join(", ")}`);
+        const feedback = document.getElementById(`feedback-${index}`);
+        if (escolha === null) return;
+
+        if (escolha.trim().toLowerCase() === disp.tipo.toLowerCase()) {
+          feedback.textContent = "✅ Correto!";
+          feedback.className = "feedback correto";
+        } else {
+          feedback.textContent = `❌ Errado. Tipo correto: ${disp.tipo}`;
+          feedback.className = "feedback errado";
+        }
+      };
+      container.appendChild(div);
+    });
+  </script>
+
+</body>
+</html>
